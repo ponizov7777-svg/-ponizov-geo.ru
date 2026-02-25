@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
     <title>Геомаркетинг: заявки из Яндекс.Карт — аудит и консультация</title>
     <meta
@@ -14,13 +18,10 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
-    <meta property="og:title" content="Геомаркетинг: заявки из Яндекс.Карт — аудит и консультация" />
-    <meta
-      property="og:description"
-      content="Личный разбор карточки и рекламы: что мешает заявкам, что улучшить и как посчитать экономику. Без агентства и менеджеров."
-    />
+    <meta property="og:title" content="Понизов Маркетинг" />
+    <meta property="og:description" content="Геомаркетинг для локального бизнеса" />
     <meta property="og:url" content="https://example.com/" />
-    <meta property="og:image" content="https://example.com/og-image.jpg" />
+    <meta property="og:image" content="images/og-image.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <meta name="theme-color" content="#0B1220" />
@@ -37,6 +38,67 @@
         },
       };
     </script>
+    <style>
+      .btn-hover-scale {
+        transition: transform 0.4s ease;
+      }
+      .btn-hover-scale:hover {
+        transform: scale(1.02);
+      }
+
+      /* Секции: fade in + slide up при скролле */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .animate-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Hero-заголовок: появление по буквам */
+      .hero-title-wrap {
+        display: inline-block;
+      }
+      .hero-letter {
+        opacity: 0;
+        animation: hero-letter-in 0.35s ease forwards;
+      }
+      @keyframes hero-letter-in {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+        /* Мобильная адаптация (max-width: 768px) */
+      @media (max-width: 768px) {
+        /* Отступы секций меньше */
+        main section .mx-auto.max-w-6xl {
+          padding-top: 2rem !important;
+          padding-bottom: 2rem !important;
+          padding-left: 1rem !important;
+          padding-right: 1rem !important;
+        }
+        /* Hero: заголовок меньше, кнопки в колонку */
+        .hero-section-title {
+          font-size: 1.35rem;
+          line-height: 1.3;
+        }
+        .hero-buttons {
+          flex-direction: column;
+        }
+        /* Тарифы: «Про» сверху — порядок через order */
+        .tariff-basic { order: 2; }
+        .tariff-pro { order: 1; }
+        .tariff-business { order: 3; }
+      }
+    </style>
   </head>
   <body class="bg-white text-slate-900 antialiased font-sans text-[15px] md:text-base leading-relaxed">
     <a
@@ -48,11 +110,11 @@
     <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <a href="#" class="flex items-center gap-2">
-          <span class="grid h-9 w-9 place-items-center rounded-xl bg-slate-900 text-sm font-semibold text-white">GM</span>
-          <span class="text-sm font-semibold tracking-tight text-slate-900">Геомаркетинг для локального бизнеса</span>
+          <img src="assets/logo.png" alt="" width="36" height="36" class="h-9 w-9 rounded-xl flex-shrink-0 object-cover" />
+          <span class="text-sm font-semibold tracking-tight text-slate-900">Понизов Маркетинг</span>
         </a>
 
-        <nav class="hidden items-center gap-6 text-sm text-slate-600 md:flex">
+        <nav id="nav-desktop" class="hidden items-center gap-6 text-sm text-slate-600 md:flex" aria-label="Основное меню">
           <a class="hover:text-slate-900" href="#what-you-get">Аудит</a>
           <a class="hover:text-slate-900" href="#system">Метод</a>
           <a class="hover:text-slate-900" href="#cases">Кейсы</a>
@@ -64,17 +126,43 @@
         <div class="flex items-center gap-2">
           <a
             id="top-telegram"
-            class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/30"
+            class="btn-hover-scale hidden md:inline-flex items-center justify-center rounded-xl bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/30"
             href="#cta"
             >Начать</a
           >
+          <button
+            id="hamburger-btn"
+            type="button"
+            class="md:hidden flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
+            aria-label="Открыть меню"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+          >
+            <svg id="hamburger-icon" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="hamburger-close" class="hidden h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
+      </div>
+      <div id="nav-mobile" class="nav-mobile hidden md:hidden border-t border-slate-200 bg-white px-4 py-4" aria-label="Мобильное меню">
+        <nav class="flex flex-col gap-1 text-sm text-slate-700">
+          <a class="nav-mobile-link rounded-xl px-4 py-3 hover:bg-slate-100 hover:text-slate-900" href="#what-you-get">Аудит</a>
+          <a class="nav-mobile-link rounded-xl px-4 py-3 hover:bg-slate-100 hover:text-slate-900" href="#system">Метод</a>
+          <a class="nav-mobile-link rounded-xl px-4 py-3 hover:bg-slate-100 hover:text-slate-900" href="#cases">Кейсы</a>
+          <a class="nav-mobile-link rounded-xl px-4 py-3 hover:bg-slate-100 hover:text-slate-900" href="#prices">Услуги и цены</a>
+          <a class="nav-mobile-link rounded-xl px-4 py-3 hover:bg-slate-100 hover:text-slate-900" href="#about">Обо мне</a>
+          <a class="nav-mobile-link rounded-xl px-4 py-3 hover:bg-slate-100 hover:text-slate-900" href="#faq">FAQ</a>
+          <a class="btn-hover-scale mt-2 inline-flex justify-center rounded-xl bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800" href="#cta">Начать</a>
+        </nav>
       </div>
     </header>
 
     <main id="main">
       <!-- HERO -->
-      <section class="relative overflow-hidden">
+      <section class="relative overflow-hidden animate-on-scroll">
         <div class="pointer-events-none absolute inset-0">
           <div class="absolute -top-24 left-1/2 h-96 w-[48rem] -translate-x-1/2 rounded-full bg-indigo-500/20 blur-3xl"></div>
           <div class="absolute -bottom-24 left-1/2 h-96 w-[48rem] -translate-x-1/2 rounded-full bg-cyan-400/10 blur-3xl"></div>
@@ -85,26 +173,26 @@
             <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-600">
               Локальный маркетинг • Яндекс.Карты • реклама • аналитика
             </p>
-            <h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 md:text-5xl">
-              Карточка в Яндекс Картах есть, а заявок нет?
+            <h1 class="hero-section-title mt-4 text-3xl font-semibold tracking-tight text-slate-900 md:text-5xl">
+              <span class="hero-title-wrap" id="hero-title-text">Карточка в Яндекс Картах есть, а заявок нет?</span>
             </h1>
             <p class="mt-4 text-base leading-relaxed text-slate-700 md:text-lg">
               Помогаю локальному бизнесу получать заявки из карт и рекламы. Работаю лично — без менеджеров и посредников.
               В предпринимательстве более 10 лет.
             </p>
 
-            <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div class="hero-buttons mt-7 flex flex-col gap-3 sm:flex-row">
               <a
                 id="hero-telegram"
-                class="inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-soft transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-white/30"
-                href="https://t.me/your_username?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B0%D1%83%D0%B4%D0%B8%D1%82%20%D0%9A%D0%B0%D1%80%D1%82%20%D0%BD%D0%B0%2015%E2%80%9320%20%D0%BC%D0%B8%D0%BD%D1%83%D1%82.%20%D0%92%D0%BE%D1%82%20%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D1%83%3A%20%5B%D0%B2%D1%81%D1%82%D0%B0%D0%B2%D1%8C%D1%82%D0%B5%20%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D1%83%5D"
+                class="btn-hover-scale inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-soft transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-white/30"
+                href="https://t.me/ponizovandrey?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B0%D1%83%D0%B4%D0%B8%D1%82%20%D0%9A%D0%B0%D1%80%D1%82%20%D0%BD%D0%B0%2015%E2%80%9320%20%D0%BC%D0%B8%D0%BD%D1%83%D1%82.%20%D0%92%D0%BE%D1%82%20%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D1%83%3A%20%5B%D0%B2%D1%81%D1%82%D0%B0%D0%B2%D1%8C%D1%82%D0%B5%20%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D1%83%5D"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
               >
                 Написать в Telegram
               </a>
               <a
-                class="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+                class="btn-hover-scale inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
                 href="#prices"
               >
                 Услуги и цены
@@ -184,7 +272,7 @@
       </section>
 
       <!-- WHAT YOU GET -->
-      <section id="what-you-get" class="border-t border-slate-200 bg-white">
+      <section id="what-you-get" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">Что получите за 15–20 минут</h2>
           <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700 md:text-base">
@@ -193,19 +281,19 @@
           </p>
 
           <div class="mt-8 grid gap-6 md:grid-cols-3">
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-7">
               <p class="text-sm font-semibold text-slate-900">Чёткий диагноз</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Что мешает заявкам: спрос, карточка, доверие, реклама или экономика сделки.
               </p>
             </div>
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-7">
               <p class="text-sm font-semibold text-slate-900">План первых действий</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 3–7 приоритетов, которые дадут наибольший эффект при вашем бюджете и ресурсах.
               </p>
             </div>
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-7">
               <p class="text-sm font-semibold text-slate-900">Понимание цифр</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Оценка воронки и целевых метрик: цена лида, конверсия, маржа, окупаемость.
@@ -224,7 +312,7 @@
       </section>
 
       <!-- SYSTEM / METHOD -->
-      <section id="system" class="border-t border-slate-200 bg-white">
+      <section id="system" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">С чем я помогаю: геомаркетинг как система</h2>
           <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700 md:text-base">
@@ -233,19 +321,19 @@
           </p>
 
           <div class="mt-8 grid gap-6 md:grid-cols-2">
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-7">
               <p class="text-sm font-semibold text-slate-900">1) Спрос</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Проверяем, как люди реально ищут услугу в вашем городе, какие запросы и районы важны, кто конкуренты в выдаче.
               </p>
             </div>
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-sm font-semibold text-slate-900">2) Упаковка карточки</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Структура услуг, категории, фото/видео, УТП, ответы, расписание, атрибуты — всё, что влияет на выбор.
               </p>
             </div>
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-sm font-semibold text-slate-900">3) Доверие</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Отзывы и репутация: как получать их безопасно и стабильно, как работать с негативом, какие триггеры доверия важны в вашей нише.
@@ -281,7 +369,7 @@
       </section>
 
       <!-- CASES -->
-      <section id="cases" class="border-t border-slate-200 bg-white">
+      <section id="cases" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
@@ -298,7 +386,7 @@
           </div>
 
           <div class="mt-8 grid gap-6 md:grid-cols-3">
-            <article class="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+            <article class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-7">
               <h3 class="text-sm font-semibold text-slate-900">Стоматология</h3>
               <p class="mt-1 text-xs text-slate-500">Город: Казань</p>
               <dl class="mt-4 space-y-2 text-sm text-slate-700">
@@ -323,7 +411,7 @@
               </ul>
             </article>
 
-            <article class="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+            <article class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-7">
               <h3 class="text-sm font-semibold text-slate-900">Автосервис</h3>
               <p class="mt-1 text-xs text-slate-500">Город: Екатеринбург</p>
               <dl class="mt-4 space-y-2 text-sm text-slate-700">
@@ -348,7 +436,7 @@
               </ul>
             </article>
 
-            <article class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <article class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <h3 class="text-sm font-semibold text-slate-900">Салон красоты</h3>
               <p class="mt-1 text-xs text-slate-500">Город: Новосибирск</p>
               <dl class="mt-4 space-y-2 text-sm text-slate-700">
@@ -382,7 +470,7 @@
       </section>
 
       <!-- OBJECTIONS -->
-      <section id="objections" class="border-t border-slate-200 bg-white">
+      <section id="objections" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">Возражения и сомнения</h2>
           <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700 md:text-base">
@@ -390,28 +478,28 @@
           </p>
 
           <div class="mt-8 grid gap-6 md:grid-cols-2">
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-sm font-semibold text-slate-900">«У нас уже есть карточка — зачем что-то менять?»</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Карточка может «быть», но не «продавать». Часто проблема в структуре услуг, атрибутах, фотографиях, ответах и отзывах — это
                 напрямую влияет на конверсию в звонки/заявки.
               </p>
             </div>
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-sm font-semibold text-slate-900">«Мы пробовали рекламу — не сработало»</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Причина обычно в связке: неверная география/запросы, слабая упаковка карточки, отсутствие доверия или экономика не сходится.
                 На аудите находим, где именно «рвётся цепочка».
               </p>
             </div>
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-sm font-semibold text-slate-900">«А если конкуренты сильнее?»</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Сравниваемся по конкретным параметрам: ассортимент услуг, визуал, отзывы, ответы, удобство контакта, география спроса. Часто можно
                 обойти конкурентов не бюджетом, а качеством и фокусом.
               </p>
             </div>
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-sm font-semibold text-slate-900">«Не хочу агентство и менеджеров»</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Я работаю лично. Если проект требует подрядчиков (например, фото или разработка), это обсуждается отдельно — вы понимаете, за что
@@ -423,7 +511,7 @@
       </section>
 
       <!-- ABOUT -->
-      <section id="about" class="border-t border-slate-200 bg-white">
+      <section id="about" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <div class="grid gap-8 md:grid-cols-2 md:items-start">
             <div>
@@ -433,26 +521,26 @@
               </p>
 
               <div class="mt-6 space-y-4">
-                <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
                   <p class="text-sm font-semibold text-slate-900">Опыт предпринимательства</p>
                   <p class="mt-2 text-sm leading-relaxed text-slate-700">
-                    Более 10 лет в бизнесе. Поэтому на консультациях обсуждаем не только рекламу, но и продукт, сервис и воронку.
+                    Более <span class="js-counter" data-end="10" data-suffix=" лет" data-duration="1000">0</span> в бизнесе. Поэтому на консультациях обсуждаем не только рекламу, но и продукт, сервис и воронку.
                   </p>
                 </div>
-                <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
                   <p class="text-sm font-semibold text-slate-900">Почему работаю без агентства</p>
                   <p class="mt-2 text-sm leading-relaxed text-slate-700">
                     Чтобы сохранять качество и ответственность. Вы общаетесь со специалистом, который делает работу и принимает решения, а не с
                     «передатчиком задач».
                   </p>
                 </div>
-                <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
                   <p class="text-sm font-semibold text-slate-900">Принцип отбора проектов</p>
                   <p class="mt-2 text-sm leading-relaxed text-slate-700">
                     Беру проекты, где можно собрать систему и посчитать экономику. Если вводные не позволяют — честно скажу на аудите.
                   </p>
                 </div>
-                <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
                   <p class="text-sm font-semibold text-slate-900">Философия</p>
                   <p class="mt-2 text-sm leading-relaxed text-slate-700">
                     Сначала экономика, потом реклама. Иначе можно получить «дорогой трафик», который не окупается.
@@ -461,7 +549,7 @@
               </div>
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-7 shadow-soft">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-7 shadow-soft">
               <div class="aspect-[4/5] w-full overflow-hidden rounded-2xl border border-slate-200 bg-white">
                 <img
                   src="assets/author.png"
@@ -489,7 +577,7 @@
       </section>
 
       <!-- FUNNEL / READINESS -->
-      <section id="funnel" class="border-t border-slate-200 bg-white">
+      <section id="funnel" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">Воронка по уровню готовности</h2>
           <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-800 md:text-base">
@@ -497,20 +585,20 @@
           </p>
 
           <div class="mt-8 grid gap-6 md:grid-cols-4">
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-xs font-semibold text-slate-900">Уровень 1</p>
               <p class="mt-1 text-sm font-semibold text-slate-900">Контент</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-800">Статьи и канал — чтобы разобраться в подходе и терминах.</p>
               <a
                 class="mt-4 inline-flex text-sm font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900"
-                href="https://t.me/your_channel"
+                href="https://t.me/PonizovAndreySPB"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 >Перейти в канал</a
               >
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-xs font-semibold text-slate-900">Уровень 2</p>
               <p class="mt-1 text-sm font-semibold text-slate-900">Самодиагностика</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-800">Чек‑лист PDF: что проверить в карточке и воронке до рекламы.</p>
@@ -523,7 +611,7 @@
               >
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-xs font-semibold text-slate-900">Уровень 3</p>
               <p class="mt-1 text-sm font-semibold text-slate-900">Бесплатный аудит</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-800">15–20 минут: диагноз, потенциал, приоритеты.</p>
@@ -534,7 +622,7 @@
               >
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <p class="text-xs font-semibold text-slate-900">Уровень 4</p>
               <p class="mt-1 text-sm font-semibold text-slate-900">Платная консультация</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-800">Глубокий разбор и план: экономика, реклама, аналитика.</p>
@@ -553,15 +641,15 @@
             </p>
             <div class="mt-5 flex flex-col gap-3 sm:flex-row">
               <a
-                class="inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-soft transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-white/30"
+                class="btn-hover-scale inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-soft transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-white/30"
                 href="checklist.pdf"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 >Скачать чек‑лист PDF</a
               >
               <a
-                class="inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
-                href="https://t.me/your_channel"
+                class="btn-hover-scale inline-flex items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30"
+                href="https://t.me/PonizovAndreySPB"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 >Подписаться на канал</a
@@ -572,7 +660,7 @@
       </section>
 
       <!-- START FORMAT -->
-      <section id="start" class="border-t border-slate-200 bg-white">
+      <section id="start" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">Формат старта</h2>
           <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700 md:text-base">
@@ -580,7 +668,7 @@
           </p>
 
           <div class="mt-8 grid gap-4 md:grid-cols-2">
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <h3 class="text-lg font-semibold text-slate-900">Бесплатный аудит (15–20 минут)</h3>
               <ul class="mt-3 list-inside list-disc text-sm text-slate-700">
                 <li>смотрим карточку, выдачу и конкурентов</li>
@@ -592,7 +680,7 @@
                 Подходит, если вы хотите понять «есть ли смысл» и куда копать в первую очередь.
               </p>
             </div>
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <h3 class="text-lg font-semibold text-slate-900">Платная консультация (60–90 минут)</h3>
               <ul class="mt-3 list-inside list-disc text-sm text-slate-700">
                 <li>глубокий разбор спроса, карточки, доверия</li>
@@ -609,61 +697,72 @@
       </section>
 
       <!-- PRICES -->
-      <section id="prices" class="border-t border-slate-200 bg-white">
+      <section id="prices" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
-          <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">Услуги и цены</h2>
+          <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">Тарифы</h2>
           <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700 md:text-base">
-            Цены прозрачные. Если по аудитe выяснится, что сейчас не стоит запускать рекламу — вы узнаете это сразу.
+            Выберите формат работы под вашу задачу и скорость. Все тарифы можно обсудить и адаптировать под ваши вводные.
           </p>
 
-          <div class="mt-8 grid gap-4 md:grid-cols-3">
-            <article class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-              <h3 class="text-lg font-semibold text-slate-900">Бесплатный аудит</h3>
-              <p class="mt-1 text-sm text-slate-600">15–20 минут</p>
-              <p class="mt-4 text-3xl font-semibold text-slate-900">0 ₽</p>
+          <div class="mt-8 grid gap-6 md:grid-cols-3 md:grid-flow-row">
+            <!-- Базовый -->
+            <article class="tariff-basic card-hover-lift flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-soft/20">
+              <h3 class="text-lg font-semibold text-slate-900">Базовый</h3>
+              <p class="mt-1 text-sm text-slate-600">для спокойного старта</p>
+              <p class="mt-4 text-3xl font-semibold text-slate-900"><span class="js-counter" data-end="15000" data-suffix=" ₽" data-duration="1200">0</span></p>
               <ul class="mt-4 space-y-2 text-sm text-slate-700">
-                <li>• диагностика системы</li>
-                <li>• потенциал и риски</li>
-                <li>• список приоритетов</li>
+                <li>✓ аудит карточки и спроса</li>
+                <li>✓ рекомендации по упаковке и отзывам</li>
+                <li>✓ чек‑лист по доработкам</li>
               </ul>
               <a
-                class="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-soft transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-white/30"
+                class="btn-hover-scale mt-6 inline-flex w-full items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900/15"
                 href="#cta"
-                >Записаться</a
+                >Выбрать</a
               >
             </article>
 
-            <article class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-              <h3 class="text-lg font-semibold text-slate-900">Консультация</h3>
-              <p class="mt-1 text-sm text-slate-600">60–90 минут</p>
-              <p class="mt-4 text-3xl font-semibold text-slate-900">от 12 000 ₽</p>
+            <!-- Про (популярный) -->
+            <article
+              class="tariff-pro card-hover-lift relative flex flex-col rounded-3xl border-2 border-amber-400/60 bg-gradient-to-br from-amber-400/45 to-orange-500/50 p-8 shadow-soft md:scale-105 md:origin-center"
+            >
+              <div class="mb-3 flex items-center justify-between gap-2">
+                <h3 class="text-lg font-semibold text-slate-900">Про</h3>
+                <span
+                  class="inline-flex items-center rounded-full bg-amber-500/25 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800"
+                  >Популярный</span
+                >
+              </div>
+              <p class="text-sm text-slate-600">оптимальный баланс глубины и цены</p>
+              <p class="mt-4 text-4xl font-semibold text-slate-900"><span class="js-counter" data-end="25000" data-suffix=" ₽" data-duration="1200">0</span></p>
               <ul class="mt-4 space-y-2 text-sm text-slate-700">
-                <li>• глубокий разбор и план</li>
-                <li>• экономика и лимиты</li>
-                <li>• рекомендации по карточке/рекламе</li>
+                <li>✓ глубокий аудит и стратегия на 4–6 недель</li>
+                <li>✓ проработка рекламы и тестовых гипотез</li>
+                <li>✓ базовая юнит‑экономика и точки контроля</li>
+                <li>✓ приоритизированный план действий</li>
               </ul>
               <a
-                class="mt-6 inline-flex w-full items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
-                href="https://t.me/your_username?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%83%D1%8E%20%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8E.%20%D0%92%D0%BE%D1%82%20%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D1%83%2F%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%3A%20%5B%D0%B2%D1%81%D1%82%D0%B0%D0%B2%D1%8C%D1%82%D0%B5%20%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D1%83%5D"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                >Написать в Telegram</a
+                class="btn-hover-scale mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-amber-500/90 px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+                href="#cta"
+                >Выбрать</a
               >
             </article>
 
-            <article class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-              <h3 class="text-lg font-semibold text-slate-900">Сопровождение</h3>
-              <p class="mt-1 text-sm text-slate-600">2–4 недели</p>
-              <p class="mt-4 text-3xl font-semibold text-slate-900">по договорённости</p>
+            <!-- Бизнес -->
+            <article class="tariff-business card-hover-lift flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-soft/20">
+              <h3 class="text-lg font-semibold text-slate-900">Бизнес</h3>
+              <p class="mt-1 text-sm text-slate-600">для системной работы</p>
+              <p class="mt-4 text-3xl font-semibold text-slate-900"><span class="js-counter" data-end="45000" data-suffix=" ₽" data-duration="1200">0</span></p>
               <ul class="mt-4 space-y-2 text-sm text-slate-700">
-                <li>• доведение системы до результата</li>
-                <li>• тесты и итерации</li>
-                <li>• контроль по метрикам</li>
+                <li>✓ всё из тарифа «Про»</li>
+                <li>✓ сопровождение внедрения на 2–4 недели</li>
+                <li>✓ несколько итераций тестов и корректировок</li>
+                <li>✓ совместный разбор аналитики и решений</li>
               </ul>
               <a
-                class="mt-6 inline-flex w-full items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
+                class="btn-hover-scale mt-6 inline-flex w-full items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900/15"
                 href="#cta"
-                >Уточнить формат</a
+                >Выбрать</a
               >
             </article>
           </div>
@@ -671,7 +770,7 @@
       </section>
 
       <!-- FINAL CTA -->
-      <section id="cta" class="border-t border-slate-200 bg-white">
+      <section id="cta" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <div class="grid gap-6 md:grid-cols-2 md:items-start">
             <div>
@@ -698,14 +797,14 @@
               </p>
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-soft">
+            <div class="card-hover-lift rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-soft">
               <h3 class="text-lg font-semibold text-slate-900">Написать в Telegram</h3>
               <p class="mt-2 text-sm leading-relaxed text-slate-700">
                 Нажмите кнопку — откроется сообщение с предзаполненным текстом. Вам останется вставить ссылку на карточку.
               </p>
               <a
                 id="cta-telegram"
-                class="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-soft transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-white/30"
+                class="btn-hover-scale mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-soft transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-white/30"
                 href="https://t.me/your_username?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9%20%D0%B0%D1%83%D0%B4%D0%B8%D1%82%20%D0%B3%D0%B5%D0%BE%20%D0%BF%D0%BE%2015%E2%80%9320%20%D0%BC%D0%B8%D0%BD%D1%83%D1%82.%0A%0A%D0%93%D0%BE%D1%80%D0%BE%D0%B4%3A%20%5B%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%5D%0A%D0%9D%D0%B8%D1%88%D0%B0%2F%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%3A%20%5B%D0%BD%D0%B8%D1%88%D0%B0%5D%0A%D0%A1%D1%80%D0%B5%D0%B4%D0%BD%D0%B8%D0%B9%20%D1%87%D0%B5%D0%BA%3A%20%5B%D1%87%D0%B5%D0%BA%5D%0A%D0%A1%D1%81%D1%8B%D0%BB%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D1%83%20%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81.%D0%9A%D0%B0%D1%80%D1%82%3A%20%5B%D0%B2%D1%81%D1%82%D0%B0%D0%B2%D1%8C%D1%82%D0%B5%20%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D1%83%5D"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
@@ -778,7 +877,7 @@
                 <button
                   type="submit"
                   id="contact-submit"
-                  class="inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/30 disabled:cursor-not-allowed disabled:bg-slate-400"
+                  class="btn-hover-scale inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/30 disabled:cursor-not-allowed disabled:bg-slate-400"
                 >
                   Отправить заявку
                 </button>
@@ -795,7 +894,7 @@
       </section>
 
       <!-- FAQ -->
-      <section id="faq" class="border-t border-slate-200 bg-white">
+      <section id="faq" class="border-t border-slate-200 bg-white animate-on-scroll">
         <div class="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-20">
           <h2 class="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">FAQ</h2>
           <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700 md:text-base">
@@ -803,7 +902,7 @@
           </p>
 
           <div class="mt-8 grid gap-4 md:grid-cols-2">
-            <details class="group rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <details class="card-hover-lift group rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <summary class="cursor-pointer list-none text-sm font-semibold text-slate-900">
                 Сколько времени занимает запуск изменений?
                 <span class="float-right text-slate-400 group-open:text-slate-900">+</span>
@@ -814,7 +913,7 @@
               </p>
             </details>
 
-            <details class="group rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <details class="card-hover-lift group rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <summary class="cursor-pointer list-none text-sm font-semibold text-slate-900">
                 Что если у нас мало отзывов?
                 <span class="float-right text-slate-400 group-open:text-slate-900">+</span>
@@ -825,7 +924,7 @@
               </p>
             </details>
 
-            <details class="group rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <details class="card-hover-lift group rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <summary class="cursor-pointer list-none text-sm font-semibold text-slate-900">
                 Вы даёте гарантии по заявкам?
                 <span class="float-right text-slate-400 group-open:text-slate-900">+</span>
@@ -836,7 +935,7 @@
               </p>
             </details>
 
-            <details class="group rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <details class="card-hover-lift group rounded-3xl border border-slate-200 bg-slate-50 p-6">
               <summary class="cursor-pointer list-none text-sm font-semibold text-slate-900">
                 Как проходит консультация?
                 <span class="float-right text-slate-400 group-open:text-slate-900">+</span>
@@ -866,10 +965,10 @@
               Telegram:
               <a
                 class="underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900"
-                href="https://t.me/your_username"
+                href="https://t.me/ponizovandrey"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
-                >@your_username</a
+                >@ponizovandrey</a
               >
             </p>
             <p class="mt-1">
@@ -912,14 +1011,14 @@
         <div class="flex gap-2">
           <button
             id="cookie-accept"
-            class="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-soft transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/30"
+            class="btn-hover-scale rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-soft transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/30"
             type="button"
           >
             Принять
           </button>
           <button
             id="cookie-close"
-            class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
+            class="btn-hover-scale rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
             type="button"
           >
             Закрыть
@@ -941,12 +1040,12 @@
             "description": "Помогаю локальному бизнесу получать заявки из Яндекс.Карт и рекламы. Работаю лично, без агентства.",
             "image": "https://example.com/photo.jpg",
             "url": "https://example.com/",
-            "sameAs": ["https://t.me/your_username"]
+            "sameAs": ["https://t.me/ponizovandrey"]
           },
           {
             "@type": "WebSite",
             "@id": "https://example.com/#website",
-            "name": "Геомаркетинг для локального бизнеса",
+            "name": "Понизов Маркетинг",
             "url": "https://example.com/",
             "inLanguage": "ru-RU",
             "publisher": { "@id": "https://example.com/#person" }
@@ -1029,6 +1128,104 @@
 
     <script>
       (function () {
+        // Hero-заголовок: появление по буквам
+        var heroTitle = document.getElementById("hero-title-text");
+        if (heroTitle) {
+          var text = heroTitle.textContent;
+          heroTitle.textContent = "";
+          var delayStep = 0.035;
+          for (var i = 0; i < text.length; i++) {
+            var span = document.createElement("span");
+            span.className = "hero-letter";
+            span.style.animationDelay = i * delayStep + "s";
+            span.textContent = text[i];
+            heroTitle.appendChild(span);
+          }
+        }
+
+        // Секции: fade in + slide up при скролле
+        var sections = document.querySelectorAll(".animate-on-scroll");
+        var sectionObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) entry.target.classList.add("is-visible");
+            });
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+        );
+        sections.forEach(function (el) {
+          sectionObserver.observe(el);
+        });
+
+        // Счётчики: анимация от 0 до значения при появлении в viewport
+        function formatNum(n, suffix) {
+          if (n >= 1000) {
+            return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "\u00A0") + suffix;
+          }
+          return n + suffix;
+        }
+        var counterEls = document.querySelectorAll(".js-counter");
+        var counterObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              var el = entry.target;
+              counterObserver.unobserve(el);
+              var end = parseInt(el.getAttribute("data-end"), 10);
+              var suffix = el.getAttribute("data-suffix") || "";
+              var duration = parseInt(el.getAttribute("data-duration"), 10) || 1200;
+              var startTime = null;
+              function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                var elapsed = timestamp - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                var easeOut = 1 - Math.pow(1 - progress, 2);
+                var current = Math.round(easeOut * end);
+                el.textContent = formatNum(current, suffix);
+                if (progress < 1) requestAnimationFrame(step);
+              }
+              requestAnimationFrame(step);
+            });
+          },
+          { threshold: 0.2 }
+        );
+        counterEls.forEach(function (el) {
+          counterObserver.observe(el);
+        });
+
+        // Мобильное меню: гамбургер
+        var hamburgerBtn = document.getElementById("hamburger-btn");
+        var navMobile = document.getElementById("nav-mobile");
+        var hamburgerIcon = document.getElementById("hamburger-icon");
+        var hamburgerClose = document.getElementById("hamburger-close");
+        var navLinks = document.querySelectorAll(".nav-mobile-link");
+        function closeMobileNav() {
+          if (navMobile) navMobile.classList.add("hidden");
+          if (hamburgerBtn) hamburgerBtn.setAttribute("aria-expanded", "false");
+          if (hamburgerIcon) hamburgerIcon.classList.remove("hidden");
+          if (hamburgerClose) hamburgerClose.classList.add("hidden");
+        }
+        function openMobileNav() {
+          if (navMobile) navMobile.classList.remove("hidden");
+          if (hamburgerBtn) hamburgerBtn.setAttribute("aria-expanded", "true");
+          if (hamburgerIcon) hamburgerIcon.classList.add("hidden");
+          if (hamburgerClose) hamburgerClose.classList.remove("hidden");
+        }
+        function toggleMobileNav() {
+          var isOpen = navMobile && !navMobile.classList.contains("hidden");
+          if (isOpen) closeMobileNav(); else openMobileNav();
+        }
+        if (hamburgerBtn && navMobile) {
+          hamburgerBtn.addEventListener("click", toggleMobileNav);
+          navLinks.forEach(function (link) {
+            link.addEventListener("click", closeMobileNav);
+          });
+        }
+      })();
+    </script>
+
+    <script>
+      (function () {
         const year = document.getElementById("year");
         if (year) year.textContent = new Date().getFullYear();
 
@@ -1082,9 +1279,7 @@
         const statusEl = document.getElementById("contact-status");
 
         if (form && submitButton && statusEl) {
-          const BOT_TOKEN = "8689129494:AAEWlQV9D_J_zCi-2TSeEqawn8kUEaoNes0";
-          const CHAT_ID = "283522178";
-          const API_URL = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage";
+          const API_URL = "http://localhost:3001/api/lead";
 
           form.addEventListener("submit", async function (event) {
             event.preventDefault();
@@ -1103,39 +1298,28 @@
             submitButton.textContent = "Отправляем…";
             statusEl.textContent = "";
 
-            const text =
-              "📩 Новая заявка с лендинга геомаркетинга\n\n" +
-              "Имя: " +
-              name +
-              "\n" +
-              "Телефон / Telegram: " +
-              phone +
-              "\n\n" +
-              "Сообщение:\n" +
-              message;
-
             try {
               const response = await fetch(API_URL, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                  chat_id: CHAT_ID,
-                  text: text,
-                  parse_mode: "HTML",
-                }),
+                body: JSON.stringify({ name, phone, message }),
               });
 
-              if (!response.ok) {
-                throw new Error("Telegram API error: " + response.status);
+              const data = await response.json().catch(function () {
+                return { success: false };
+              });
+
+              if (!response.ok || !data.success) {
+                throw new Error(data.error || "Ошибка " + response.status);
               }
 
               statusEl.textContent = "Заявка отправлена! Я свяжусь с вами в ближайшее время.";
               statusEl.className = "text-xs leading-relaxed text-emerald-600";
               form.reset();
             } catch (error) {
-              console.error("Telegram send error", error);
+              console.error("Ошибка отправки заявки", error);
               statusEl.textContent =
                 "Не получилось отправить заявку. Попробуйте ещё раз или напишите напрямую в Telegram.";
               statusEl.className = "text-xs leading-relaxed text-red-600";

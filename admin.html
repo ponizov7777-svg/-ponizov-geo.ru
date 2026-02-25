@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Админ-панель — заявки</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-slate-900 antialiased font-sans text-[15px] leading-relaxed min-h-screen">
+    <div class="mx-auto max-w-6xl px-4 py-8">
+      <header class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-6">
+        <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Заявки</h1>
+        <a
+          href="index.html"
+          class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          >На лендинг</a
+        >
+      </header>
+
+      <div class="mt-6 flex flex-wrap gap-2">
+        <button
+          type="button"
+          data-filter="all"
+          class="filter-btn rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 border-slate-900 bg-slate-900 text-white hover:bg-slate-800"
+          >Все</button
+        >
+        <button
+          type="button"
+          data-filter="new"
+          class="filter-btn rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          >Новые</button
+        >
+        <button
+          type="button"
+          data-filter="processed"
+          class="filter-btn rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          >Обработанные</button
+        >
+      </div>
+
+      <div id="loading" class="mt-6 text-sm text-slate-500">Загрузка…</div>
+      <div id="error" class="mt-6 hidden text-sm text-red-600"></div>
+
+      <div class="mt-6 overflow-x-auto rounded-xl border border-slate-200">
+        <table class="w-full min-w-[640px] text-left text-sm">
+          <thead class="border-b border-slate-200 bg-slate-50">
+            <tr>
+              <th class="px-4 py-3 font-semibold text-slate-900">№</th>
+              <th class="px-4 py-3 font-semibold text-slate-900">Имя</th>
+              <th class="px-4 py-3 font-semibold text-slate-900">Телефон</th>
+              <th class="px-4 py-3 font-semibold text-slate-900">Сообщение</th>
+              <th class="px-4 py-3 font-semibold text-slate-900">Статус</th>
+              <th class="px-4 py-3 font-semibold text-slate-900">Действие</th>
+            </tr>
+          </thead>
+          <tbody id="tbody" class="divide-y divide-slate-200">
+          </tbody>
+        </table>
+      </div>
+
+      <p id="empty" class="mt-4 hidden text-sm text-slate-500">Нет заявок.</p>
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:3001";
+      let allLeads = [];
+      let currentFilter = "all";
+
+      function statusLabel(status) {
+        const s = (status || "new").toLowerCase();
+        if (s === "processed" || s === "обработана") return "Обработана";
+        return "Новая";
+      }
+
+      function statusBadgeClass(status) {
+        const s = (status || "new").toLowerCase();
+        if (s === "processed" || s === "обработана") {
+          return "inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800";
+        }
+        return "inline-flex rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800";
+      }
+
+      function filterLeads() {
+        if (currentFilter === "new") {
+          return allLeads.filter(function (l) {
+            const s = (l.status || "new").toLowerCase();
+            return s !== "processed" && s !== "обработана";
+          });
+        }
+        if (currentFilter === "processed") {
+          return allLeads.filter(function (l) {
+            const s = (l.status || "new").toLowerCase();
+            return s === "processed" || s === "обработана";
+          });
+        }
+        return allLeads;
+      }
+
+      function render() {
+        const tbody = document.getElementById("tbody");
+        const emptyEl = document.getElementById("empty");
+        const list = filterLeads();
+        tbody.innerHTML = "";
+        emptyEl.classList.add("hidden");
+        list.forEach(function (lead, index) {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-slate-50/50";
+          const isProcessed =
+            (lead.status || "new").toLowerCase() === "processed" ||
+            (lead.status || "new").toLowerCase() === "обработана";
+          tr.innerHTML =
+            "<td class=\"px-4 py-3 text-slate-600\">" +
+            (index + 1) +
+            "</td>" +
+            "<td class=\"px-4 py-3 font-medium text-slate-900\">" +
+            escapeHtml(lead.name || "—") +
+            "</td>" +
+            "<td class=\"px-4 py-3 text-slate-700\">" +
+            escapeHtml(lead.phone || "—") +
+            "</td>" +
+            "<td class=\"px-4 py-3 text-slate-700 max-w-xs truncate\" title=\"" +
+            escapeAttr(lead.message || "") +
+            "\">" +
+            escapeHtml(lead.message || "—") +
+            "</td>" +
+            "<td class=\"px-4 py-3\"><span class=\"" +
+            statusBadgeClass(lead.status) +
+            "\">" +
+            escapeHtml(statusLabel(lead.status)) +
+            "</span></td>" +
+            "<td class=\"px-4 py-3\">" +
+            (isProcessed
+              ? ""
+              : "<button type=\"button\" class=\"process-btn rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100\" data-id=\"" +
+                escapeAttr(lead.id) +
+                "\">Обработать</button>") +
+            "</td>";
+          tbody.appendChild(tr);
+        });
+        if (list.length === 0) emptyEl.classList.remove("hidden");
+
+        tbody.querySelectorAll(".process-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            const id = btn.getAttribute("data-id");
+            if (!id) return;
+            btn.disabled = true;
+            fetch(API_BASE + "/api/leads/" + id, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: "processed" }),
+            })
+              .then(function (r) {
+                return r.json().then(function (data) {
+                  if (!r.ok) throw new Error(data.error || r.status);
+                  const lead = allLeads.find(function (l) {
+                    return String(l.id) === String(id);
+                  });
+                  if (lead) lead.status = "processed";
+                  render();
+                });
+              })
+              .catch(function (err) {
+                console.error(err);
+                btn.disabled = false;
+                alert("Не удалось обновить статус.");
+              });
+          });
+        });
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      function escapeAttr(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/"/g, "&quot;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function setFilter(filter) {
+        currentFilter = filter;
+        document.querySelectorAll(".filter-btn").forEach(function (btn) {
+          const isActive = btn.getAttribute("data-filter") === filter;
+          btn.className =
+            "filter-btn rounded-xl border px-4 py-2 text-sm font-medium " +
+            (isActive
+              ? "border-slate-900 bg-slate-900 text-white hover:bg-slate-800"
+              : "border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100");
+        });
+        render();
+      }
+
+      document.querySelectorAll(".filter-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          setFilter(btn.getAttribute("data-filter"));
+        });
+      });
+
+      fetch(API_BASE + "/api/leads")
+        .then(function (r) {
+          if (!r.ok) throw new Error("Ошибка загрузки");
+          return r.json();
+        })
+        .then(function (data) {
+          document.getElementById("loading").classList.add("hidden");
+          allLeads = Array.isArray(data) ? data : [];
+          render();
+        })
+        .catch(function (err) {
+          document.getElementById("loading").classList.add("hidden");
+          var errEl = document.getElementById("error");
+          errEl.textContent = "Не удалось загрузить заявки. Проверьте, что сервер запущен на порту 3001.";
+          errEl.classList.remove("hidden");
+        });
+    </script>
+  </body>
+</html>
