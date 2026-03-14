@@ -1,9 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3002;
 
 // Supabase
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://sbexbkdgomzkzaovbhbq.supabase.co";
@@ -36,6 +37,13 @@ async function sendToTelegram(name, phone, message) {
 
 app.use(cors());
 app.use(express.json());
+
+// Статика и главная страница
+app.use(express.static(__dirname));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 app.post("/api/lead", async (req, res) => {
   try {
