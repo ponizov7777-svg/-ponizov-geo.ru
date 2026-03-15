@@ -29,20 +29,8 @@
     <!-- VK Open API для виджета «Сообщения сообщества» -->
     <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            boxShadow: {
-              soft: "0 10px 30px rgba(2, 6, 23, 0.12)",
-              neon: "0 0 20px rgba(251, 191, 36, 0.3)",
-              neonRed: "0 0 20px rgba(239, 68, 68, 0.3)",
-            },
-          },
-        },
-      };
-    </script>
+    <!-- Скомпилированный Tailwind CSS (без CDN) -->
+    <link rel="stylesheet" href="dist/output.css" />
     <style>
       /* Высокотехнологичная тема: чёрный + жёлто-красный неон */
       .theme-neon {
