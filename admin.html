@@ -118,7 +118,7 @@
             "<td class=\"px-4 py-3 text-slate-700\">" +
             escapeHtml(lead.phone || "—") +
             "</td>" +
-            "<td class=\"px-4 py-3 text-slate-700 max-w-xs truncate\" title=\"" +
+            "<td class=\"px-4 py-3 text-slate-700 sm:max-w-xs sm:truncate\" title=\"" +
             escapeAttr(lead.message || "") +
             "\">" +
             escapeHtml(lead.message || "—") +
@@ -214,7 +214,7 @@
         .catch(function (err) {
           document.getElementById("loading").classList.add("hidden");
           var errEl = document.getElementById("error");
-          errEl.textContent = "Не удалось загрузить заявки. Проверьте, что сервер запущен на порту 3001.";
+          errEl.textContent = "Не удалось загрузить заявки. Проверьте, что сервер запущен на порту 3002.";
           errEl.classList.remove("hidden");
         });
     </script>

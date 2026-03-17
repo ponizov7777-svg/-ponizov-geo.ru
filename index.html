@@ -14,20 +14,20 @@
       name="description"
       content="Геомаркетинг для локального бизнеса: заявки из Яндекс.Карт и рекламы. Бесплатный аудит 15–20 минут и консультация с разбором экономики."
     />
-    <link rel="canonical" href="https://example.com/" />
+    <link rel="canonical" href="https://ponizov-geo.ru/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:title" content="Понизов Маркетинг" />
     <meta property="og:description" content="Геомаркетинг для локального бизнеса" />
-    <meta property="og:url" content="https://example.com/" />
-    <meta property="og:image" content="images/og-image.jpg" />
+    <meta property="og:url" content="https://ponizov-geo.ru/" />
+    <meta property="og:image" content="https://ponizov-geo.ru/images/og-image.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <meta name="theme-color" content="#0a0a0b" />
 
-    <!-- VK Open API для виджета «Сообщения сообщества» -->
-    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+    <!-- VK Open API для виджета «Сообщения сообщества» (async, чтобы не блокировать рендер) -->
+    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript" async></script>
 
     <!-- Скомпилированный Tailwind CSS (без CDN) -->
     <link rel="stylesheet" href="dist/output.css" />
@@ -43,7 +43,7 @@
         --text: #f1f5f9;
         --text-muted: #94a3b8;
       }
-      .theme-neon body { background-color: var(--bg); color: var(--text); }
+      body.theme-neon { background-color: var(--bg); color: var(--text); }
       .theme-neon .section-dark { background-color: var(--bg); border-color: var(--border); }
       .theme-neon .section-alt { background-color: #0f0f11; border-color: var(--border); }
       .theme-neon .card-neon {
@@ -119,7 +119,7 @@
         --text: #0f172a;
         --text-muted: #475569;
       }
-      .theme-light body { background-color: var(--bg); color: var(--text); }
+      body.theme-light { background-color: var(--bg); color: var(--text); }
       .theme-light .section-dark { background-color: var(--bg); border-color: var(--border); }
       .theme-light .section-alt { background-color: #f1f5f9; border-color: var(--border); }
       .theme-light .card-neon {
@@ -682,12 +682,12 @@
 
             <div class="card-hover-lift rounded-3xl border border-[var(--border)] bg-[var(--bg-card)] p-7 shadow-soft">
               <div class="aspect-[4/5] w-full overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-card)]">
-                <!-- <img
-                  src="assets/author.png"
-                  alt="Фото специалиста по геомаркетингу"
-                  class="h-full w-full object-contain"
+                <img
+                  src="assets/c__Users_poniz_AppData_Roaming_Cursor_User_workspaceStorage_5eb492df49298771a264cd9861159a8e_images_DSC00480-f767098e-3d1f-4bfe-8181-264217cca256.png"
+                  alt="Понизов Андрей Анатольевич — специалист по геомаркетингу"
+                  class="h-full w-full object-cover"
                   loading="lazy"
-                /> -->
+                />
               </div>
               <p class="mt-4 text-sm font-semibold text-[var(--text)]">Личный специалист по геомаркетингу</p>
               <p class="mt-2 text-sm leading-relaxed text-slate-300">
@@ -1183,32 +1183,32 @@
         "@graph": [
           {
             "@type": "Person",
-            "@id": "https://example.com/#person",
-            "name": "Имя Фамилия",
+            "@id": "https://ponizov-geo.ru/#person",
+            "name": "Понизов Андрей Анатольевич",
             "jobTitle": "Специалист по геомаркетингу",
             "description": "Помогаю локальному бизнесу получать заявки из Яндекс.Карт и рекламы. Работаю лично, без агентства.",
-            "image": "https://example.com/photo.jpg",
-            "url": "https://example.com/",
+            "image": "https://ponizov-geo.ru/assets/c__Users_poniz_AppData_Roaming_Cursor_User_workspaceStorage_5eb492df49298771a264cd9861159a8e_images_DSC00480-f767098e-3d1f-4bfe-8181-264217cca256.png",
+            "url": "https://ponizov-geo.ru/",
             "sameAs": ["https://t.me/ponizovandrey"]
           },
           {
             "@type": "WebSite",
-            "@id": "https://example.com/#website",
+            "@id": "https://ponizov-geo.ru/#website",
             "name": "Понизов Маркетинг",
-            "url": "https://example.com/",
+            "url": "https://ponizov-geo.ru/",
             "inLanguage": "ru-RU",
-            "publisher": { "@id": "https://example.com/#person" }
+            "publisher": { "@id": "https://ponizov-geo.ru/#person" }
           },
           {
             "@type": "BreadcrumbList",
-            "@id": "https://example.com/#breadcrumbs",
+            "@id": "https://ponizov-geo.ru/#breadcrumbs",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://example.com/" }
+              { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://ponizov-geo.ru/" }
             ]
           },
           {
             "@type": "FAQPage",
-            "@id": "https://example.com/#faq",
+            "@id": "https://ponizov-geo.ru/#faq",
             "mainEntity": [
               {
                 "@type": "Question",
@@ -1375,13 +1375,19 @@
         var navLinks = document.querySelectorAll(".nav-mobile-link");
         function closeMobileNav() {
           if (navMobile) navMobile.classList.add("hidden");
-          if (hamburgerBtn) hamburgerBtn.setAttribute("aria-expanded", "false");
+          if (hamburgerBtn) {
+            hamburgerBtn.setAttribute("aria-expanded", "false");
+            hamburgerBtn.setAttribute("aria-label", "Открыть меню");
+          }
           if (hamburgerIcon) hamburgerIcon.classList.remove("hidden");
           if (hamburgerClose) hamburgerClose.classList.add("hidden");
         }
         function openMobileNav() {
           if (navMobile) navMobile.classList.remove("hidden");
-          if (hamburgerBtn) hamburgerBtn.setAttribute("aria-expanded", "true");
+          if (hamburgerBtn) {
+            hamburgerBtn.setAttribute("aria-expanded", "true");
+            hamburgerBtn.setAttribute("aria-label", "Закрыть меню");
+          }
           if (hamburgerIcon) hamburgerIcon.classList.add("hidden");
           if (hamburgerClose) hamburgerClose.classList.remove("hidden");
         }
@@ -1483,7 +1489,15 @@
             statusEl.textContent = "Открываю Telegram…";
             statusEl.className = "text-xs leading-relaxed text-[var(--text-muted)]";
 
-            window.open(telegramUrl, "_blank", "noopener,noreferrer");
+            const win = window.open(telegramUrl, "_blank", "noopener,noreferrer");
+
+            if (!win) {
+              statusEl.textContent =
+                "Похоже, браузер заблокировал открытие Telegram. Откройте ссылку вручную: " + telegramUrl;
+              statusEl.className = "text-xs leading-relaxed text-red-600";
+              submitButton.disabled = false;
+              return;
+            }
 
             statusEl.textContent =
               "Откроется Telegram с готовым сообщением — нажмите «Отправить». Я свяжусь с вами в ближайшее время.";
