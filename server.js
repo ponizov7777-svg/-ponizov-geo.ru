@@ -141,13 +141,7 @@ async function sendToTelegram(name, phone, message) {
 app.use(cors());
 app.use(express.json());
 
-// Статика и главная страница
-app.use(express.static(__dirname));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
+// Сначала API — чтобы POST /api/* не пересекался со статикой и не отдавались чужие 405 от фронта
 app.post("/api/lead", async (req, res) => {
   try {
     const { name, phone, message } = req.body || {};
@@ -385,6 +379,12 @@ app.patch("/api/leads/:id", async (req, res) => {
     });
   }
 });
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.use(express.static(__dirname));
 
 app.listen(PORT, () => {
   console.log("Сервер запущен на http://localhost:" + PORT);

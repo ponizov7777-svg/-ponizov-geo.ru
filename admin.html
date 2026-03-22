@@ -149,11 +149,11 @@
         return response.text().then(function (text) {
           var trimmed = (text || "").trim();
           if (!trimmed) {
-            throw new Error(
-              "Пустой ответ сервера (HTTP " +
-                response.status +
-                "). Убедитесь, что API проксируется на Node (те же домен и /api/*), а не только статика."
-            );
+            var extra405 =
+              response.status === 405
+                ? " HTTP 405: POST не проксируется на Node. Добавьте location /api/ → proxy_pass (см. nginx.api-snippet.conf в репозитории)."
+                : "";
+            throw new Error("Пустой ответ сервера (HTTP " + response.status + ")." + extra405);
           }
           try {
             return JSON.parse(trimmed);

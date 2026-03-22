@@ -1579,10 +1579,12 @@
           return response.text().then(function (text) {
             var trimmed = (text || "").trim();
             if (!trimmed) {
+              var extra405 =
+                response.status === 405
+                  ? " HTTP 405: до Node не доходит POST (часто блокирует nginx/CDN). Нужен отдельный location /api/ с proxy_pass на порт приложения — см. nginx.api-snippet.conf в репозитории."
+                  : "";
               throw new Error(
-                "Пустой ответ сервера (HTTP " +
-                  response.status +
-                  "). Проверьте прокси на Node и маршрут /api/generate-text."
+                "Пустой ответ сервера (HTTP " + response.status + ")." + extra405
               );
             }
             try {
